@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Locator Training Page</title>
+    <style>
+        .container { width: 80%; margin: auto; padding: 20px; }
+        .btn { padding: 10px; border: none; cursor: pointer; }
+        .primary { background-color: blue; color: white; }
+        .secondary { background-color: gray; color: white; }
+        .error { color: red; }
+        .hidden { display: none; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid black; padding: 8px; text-align: left; }
+        ul { list-style-type: none; }
+        .nested { padding-left: 20px; }
+        .sortable th { cursor: pointer; }
+    </style>
+    <script>
+        function generateId(base) {
+            return base + "-" + Math.random().toString(36).substr(2, 5);
+        }
+        
+        function toggleContent() {
+            document.getElementById("extra-content").classList.toggle("hidden");
+        }
+        
+        function addDynamicElement() {
+            const list = document.getElementById("dynamic-list");
+            const newItem = document.createElement("li");
+            newItem.setAttribute("data-id", crypto.randomUUID());
+            newItem.setAttribute("id", generateId("dynamic-item"));
+            newItem.textContent = "Dynamic Item " + newItem.getAttribute("data-id");
+            list.appendChild(newItem);
+        }
+
+        function moveColumn(direction) {
+            const table = document.getElementById("data-table");
+            const rows = table.rows;
+            const totalCols = rows[0].cells.length;
+            
+            if (direction === "left" && totalCols > 1) {
+                for (let i = 0; i < rows.length; i++) {
+                    rows[i].insertBefore(rows[i].cells[1], rows[i].cells[0]);
+                }
+            } else if (direction === "right" && totalCols > 1) {
+                for (let i = 0; i < rows.length; i++) {
+                    rows[i].appendChild(rows[i].cells[0]);
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+    <div class="container">
+        <h1>Locator Training Page</h1>
+        
+        <p class="description">This page contains various elements for practicing CSS and XPath locators.</p>
+        
+        <div class="auth-section">
+            <button id="login-button-" class="btn primary">Login</button>
+            <button id="cancel-button-" class="btn secondary">Cancel</button>
+        </div>
+        
+        <div class="form-section">
+            <form id="login-form-">
+                <label for="username-">Username:</label>
+                <input type="text" id="username-" name="username" placeholder="Enter username">
+                
+                <label for="password-">Password:</label>
+                <input type="password" id="password-" name="password">
+                
+                <input type="checkbox" id="remember-" name="remember"> <label for="remember-">Remember Me</label>
+                
+                <button type="submit" class="btn primary">Submit</button>
+            </form>
+        </div>
+        
+        <div class="error-message error hidden">Invalid credentials</div>
+        
+        <h2>Data Table</h2>
+        <button class="btn" onclick="moveColumn('left')">Move Left</button>
+        <button class="btn" onclick="moveColumn('right')">Move Right</button>
+        <table id="data-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Role</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Alice</td>
+                    <td>Admin</td>
+                    <td><button class="btn edit" data-user="1">Edit</button> <button class="btn delete" data-user="1">Delete</button></td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Bob</td>
+                    <td>Editor</td>
+                    <td><button class="btn edit" data-user="2">Edit</button> <button class="btn delete" data-user="2">Delete</button></td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Charlie</td>
+                    <td>Viewer</td>
+                    <td><button class="btn view" data-user="3">View</button></td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div class="dynamic-content">
+            <h2>Dynamic Section</h2>
+            <button id="load-more-" class="btn" onclick="toggleContent()">Load More</button>
+            <div id="extra-content" class="hidden">New content loaded...</div>
+        </div>
+        
+        <h2>Dynamic List</h2>
+        <ul id="dynamic-list"></ul>
+        <button id="add-item-" class="btn" onclick="addDynamicElement()">Add Dynamic Item</button>
+    </div>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.getElementById("login-button-").id = generateId("login-button");
+            document.getElementById("cancel-button-").id = generateId("cancel-button");
+            document.getElementById("login-form-").id = generateId("login-form");
+            document.getElementById("load-more-").id = generateId("load-more");
+            document.getElementById("add-item-").id = generateId("add-item");
+        });
+    </script>
+</body>
+</html>
